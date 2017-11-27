@@ -4,13 +4,12 @@ public class ParallelResistor extends ComposedResistor {
 
     ParallelResistor(ResistanceNet... resistanceNet) {
         super(resistanceNet);
-        this.resistance = calculateResistance(resistanceNet);
     }
 
 
 
     @Override
-    String getCircuit() {
+    public String getCircuit() {
         String returnString = "(";
 
         for (int i = 0; i < getSubNets().length - 1; i++) {
@@ -21,13 +20,9 @@ public class ParallelResistor extends ComposedResistor {
     }
 
     @Override
-    int getNumberOfResistors() {
-        return getSubNets().length;
-    }
-
-    double calculateResistance(ResistanceNet... resistanceNet) {
+    public double getResistance() {
         double newResistance = 0;
-        for (ResistanceNet r : resistanceNet) {
+        for (ResistanceNet r : getSubNets()) {
             newResistance += 1 / r.getResistance();
         }
         return 1 / newResistance;
