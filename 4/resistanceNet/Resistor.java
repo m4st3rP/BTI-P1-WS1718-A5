@@ -1,21 +1,27 @@
 package resistanceNet;
 
-// TODO Keine Setter Methode für resistance!
 public class Resistor extends ResistanceNet {
-    private String name;
+    protected String name;
 
-    Resistor(String name, double resistance) {
-        super(resistance);
+    public Resistor(String name, double resistance) {
         this.name = name;
+        this.resistance = resistance;
     }
 
-    Resistor(String name) {
-        super();
-        this.name = name;
+
+
+    @Override
+    public double getResistance() {
+        return resistance;
     }
 
     @Override
-    String getCircuit() {
+    public int getNumberOfResistors() {
+        return 1;
+    }
+
+    @Override
+    public String getCircuit() {
         return this.name;
     }
 }
