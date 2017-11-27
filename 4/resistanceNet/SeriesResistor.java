@@ -4,13 +4,12 @@ public class SeriesResistor extends ComposedResistor {
 
     SeriesResistor(ResistanceNet... resistanceNet) {
         super(resistanceNet);
-        this.resistance = calculateResistance(resistanceNet);
     }
 
 
 
     @Override
-    String getCircuit() {
+    public String getCircuit() {
         String returnString = "(";
 
         for (int i = 0; i < getSubNets().length - 1; i++) {
@@ -21,15 +20,11 @@ public class SeriesResistor extends ComposedResistor {
     }
 
     @Override
-    int getNumberOfResistors() {
-        return getSubNets().length;
-    }
-
-    double calculateResistance(ResistanceNet... resistanceNet) {
-        double newResistance = 0;
-        for (ResistanceNet r : resistanceNet) {
-            newResistance += r.getResistance();
+    public double getResistance() {
+        double resistance = 0;
+        for (ResistanceNet r : getSubNets()) {
+            resistance += r.getResistance();
         }
-        return newResistance;
+        return resistance;
     }
 }
