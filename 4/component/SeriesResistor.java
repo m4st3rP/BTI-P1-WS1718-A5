@@ -1,30 +1,36 @@
-package resistanceNet;
+package component;
 
 public class SeriesResistor extends ComposedResistor {
-
-    SeriesResistor(ResistanceNet... resistanceNet) {
-        super(resistanceNet);
-    }
-
-
-
-    @Override
-    public String getCircuit() {
-        String returnString = "(";
-
-        for (int i = 0; i < getSubNets().length - 1; i++) {
-            returnString += getSubNets()[i].getCircuit() + "+";
-        }
-
-        return returnString + getSubNets()[getSubNets().length - 1].getCircuit() + ")";
-    }
-
-    @Override
-    public double getResistance() {
-        double resistance = 0;
-        for (ResistanceNet r : getSubNets()) {
-            resistance += r.getResistance();
-        }
-        return resistance;
-    }
+	
+	public SeriesResistor(ResistanceNet... subnets) {
+		super(subnets);
+	}
+	
+	@Override
+	public String getCircuit() {
+		String circuit = "";
+		for(int i = 0; i < getSubNets().length; i++) {
+			if(i > 0)
+				circuit += " + ";
+			circuit +=  getSubNets()[i].getCircuit();
+		}
+		
+		return String.format("(%s)", circuit);
+	}
+	
+	/**
+	* Reimplements ResistanceNet.getResistance. 
+	* Resistance is used as local variable here because changes from potentiometers won't be processed properly
+	* Calculates the resistance of series resistors with R = R1 + R2 + ... + Rn.
+	* @return the calculated resistance
+	*/
+	@Override
+	public double getResistance() {
+		double resistance = 0;
+		for(ResistanceNet subnet : getSubNets()){
+			resistance += subnet.getResistance();
+		}
+		
+		return resistance;
+	}
 }
